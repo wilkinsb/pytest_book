@@ -1,0 +1,11 @@
+# OS X
+.DS_Store
+
+# Python
+*.py[cod]
+__pycache__/
+.pytest_cache/
+
+# IDE
+.idea/
+.vscode/
