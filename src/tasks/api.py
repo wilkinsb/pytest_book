@@ -1,5 +1,4 @@
 """Main API for tasks project."""
-
 from collections import namedtuple
 from six import string_types
 

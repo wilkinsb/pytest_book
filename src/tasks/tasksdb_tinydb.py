@@ -2,7 +2,7 @@
 import tinydb
 
 
-class TasksDB_TinyDB():  # noqa : E801
+class TasksDB_TinyDB:  # noqa : E801
     """Wrapper class for TinyDB.
 
     The methods in this class need to match
@@ -15,12 +15,12 @@ class TasksDB_TinyDB():  # noqa : E801
 
     def __init__(self, db_path):  # type (str) -> ()
         """Connect to db."""
-        self._db = tinydb.TinyDB(db_path + '/tasks_db.json')
+        self._db = tinydb.TinyDB(db_path + "/tasks_db.json")
 
     def add(self, task):  # type (dict) -> int
         """Add a task dict to db."""
         task_id = self._db.insert(task)
-        task['id'] = task_id
+        task["id"] = task_id
         self._db.update(task, doc_ids=[task_id])
         return task_id
 

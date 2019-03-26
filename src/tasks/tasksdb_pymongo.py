@@ -1,13 +1,14 @@
 """Database wrapper for MongoDB for tasks project."""
 
 import os
-import pymongo
 import subprocess
 import time
+
+import pymongo
 from bson.objectid import ObjectId
 
 
-class TasksDB_MongoDB():  # noqa: E801
+class TasksDB_MongoDB:  # noqa: E801
     """Wrapper class for MongoDB.
 
     The methods in this class need to match
@@ -30,7 +31,7 @@ class TasksDB_MongoDB():  # noqa: E801
 
     def get(self, task_id):  # type (int) -> dict
         """Return a task dict with matching id."""
-        return self._db.task_list.find_one({'_id': ObjectId(task_id)})
+        return self._db.task_list.find_one({"_id": ObjectId(task_id)})
 
     def list_tasks(self, owner=None):  # type (str) -> list[dict]
         """Return list of tasks."""
@@ -42,13 +43,13 @@ class TasksDB_MongoDB():  # noqa: E801
 
     def update(self, task_id, task):  # type (int, dict) -> ()
         """Modify task in db with given task_id."""
-        self._db.tasks_list.update_one({'_id': ObjectId(task_id)}, task)
+        self._db.tasks_list.update_one({"_id": ObjectId(task_id)}, task)
 
     def delete(self, task_id):  # type (int) -> ()
         """Remove a task from db with given task_id."""
-        reply = self._db.task_list.delete_one({'_id': ObjectId(task_id)})
+        reply = self._db.task_list.delete_one({"_id": ObjectId(task_id)})
         if reply.deleted_count == 0:
-            raise ValueError('id {} not in task database'.format(str(task_id)))
+            raise ValueError("id {} not in task database".format(str(task_id)))
 
     def unique_id(self):  # type () -> int
         """Return an integer that does not exist in the db."""
@@ -64,9 +65,9 @@ class TasksDB_MongoDB():  # noqa: E801
         self._stop_mongod()
 
     def _start_mongod(self, db_path):
-        self._process = subprocess.Popen(['mongod', '--dbpath', db_path],
-                                         stdout=open(os.devnull, 'wb'),
-                                         stderr=subprocess.STDOUT)
+        self._process = subprocess.Popen(
+            ["mongod", "--dbpath", db_path], stdout=open(os.devnull, "wb"), stderr=subprocess.STDOUT
+        )
         assert self._process, "mongod process failed to start"
 
     def _stop_mongod(self):
