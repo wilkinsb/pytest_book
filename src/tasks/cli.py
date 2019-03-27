@@ -44,7 +44,7 @@ def list_tasks(owner):
     print(formatstr.format("ID", "owner", "done", "summary"))
     print(formatstr.format("--", "-----", "----", "-------"))
     with _tasks_db():
-        for t in tasks.list_tasks(owner):
+        for t in tasks.list_tasks(owner): # pylint: disable=invalid-name
             done = "True" if t.done else "False"
             owner = "" if t.owner is None else t.owner
             print(formatstr.format(t.id, owner, done, t.summary))
@@ -67,7 +67,7 @@ def update(task_id, owner, summary, done):
 def count():
     """Return number of tasks in db."""
     with _tasks_db():
-        c = tasks.count()
+        c = tasks.count() # pylint: disable=invalid-name
         print(c)
 
 

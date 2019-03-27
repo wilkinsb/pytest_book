@@ -2,7 +2,7 @@
 import tinydb
 
 
-class TasksDB_TinyDB:  # noqa : E801
+class TasksDB_TinyDB:  # pylint: disable=invalid-name
     """Wrapper class for TinyDB.
 
     The methods in this class need to match
@@ -32,8 +32,7 @@ class TasksDB_TinyDB:  # noqa : E801
         """Return list of tasks."""
         if owner is None:
             return self._db.all()
-        else:
-            return self._db.search(tinydb.Query().owner == owner)
+        return self._db.search(tinydb.Query().owner == owner)
 
     def count(self):  # type () -> int
         """Return number of tasks in db."""

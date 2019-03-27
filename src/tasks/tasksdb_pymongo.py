@@ -8,7 +8,7 @@ import pymongo
 from bson.objectid import ObjectId
 
 
-class TasksDB_MongoDB:  # noqa: E801
+class TasksDB_MongoDB:  # pylint: disable=invalid-name
     """Wrapper class for MongoDB.
 
     The methods in this class need to match
