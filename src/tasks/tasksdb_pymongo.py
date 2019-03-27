@@ -33,7 +33,7 @@ class TasksDB_MongoDB:  # pylint: disable=invalid-name
         """Return a task dict with matching id."""
         return self._db.task_list.find_one({"_id": ObjectId(task_id)})
 
-    def list_tasks(self, owner=None):  # type (str) -> list[dict]
+    def list_tasks(self, owner=None):  # type (str) -> list[dict] pylint: disable=unused-argument
         """Return list of tasks."""
         return list(self._db.task_list.find())
 
@@ -51,7 +51,7 @@ class TasksDB_MongoDB:  # pylint: disable=invalid-name
         if reply.deleted_count == 0:
             raise ValueError("id {} not in task database".format(str(task_id)))
 
-    def unique_id(self):  # type () -> int
+    def unique_id(self):  # type () -> int  pylint: disable=no-self-use
         """Return an integer that does not exist in the db."""
         return ObjectId()
 
@@ -78,7 +78,7 @@ class TasksDB_MongoDB:  # pylint: disable=invalid-name
 
     def _connect(self):
         if self._process and (not self._client or not self._db):
-            for i in range(3):
+            for i in range(3): # pylint: disable=unused-variable
                 try:
                     self._client = pymongo.MongoClient()
                 except pymongo.errors.ConnectionFailure:
@@ -90,7 +90,7 @@ class TasksDB_MongoDB:  # pylint: disable=invalid-name
                 self._db = self._client.task_list
 
     def _disconnect(self):
-        self._db = None
+        self._db = None # pylint: disable=attribute-defined-outside-init
         self._client = None
 
 
