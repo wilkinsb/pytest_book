@@ -3,8 +3,7 @@
 Testing practice and methods presented in the book, "Python Testing with Pytest" by Okken
 
 ---
-### **Quick Notes**
-#### *Pytest session info*
+## *Pytest session info*
 
 When running tests using Pytest, the output will be a block of information followed by the tests and the test results.
 
@@ -32,7 +31,7 @@ It also lists packages that Pytest itself is dependent on, and their versions( P
 
 * **Summary:** The final line will show how many tests were run, and how long the entire process took to finish.
 
-#### *Pytest Option Args* 
+## *Pytest Option Args* 
 
 **--collect-only** : This arg shows which tests will be run with the currect options and configuration settings
 
@@ -73,5 +72,21 @@ def test_member_access():
 | `native` | show the standard library trace without any extra information.      |
 
 
+## *Pytest Project Setup*
+
+* 'Tasks' project structure
+
+![](./img/pytest_project_structure.png)
+
+#### **Notes on structure and included files**
+* `Functional` and `Unit` tests are split into separate directories. This is not required or necessary, but allows for a subset of tests to be run easily. `Functional` tests should only break if we're intentionally changing the functionality of the system itself, while `Unit` tests could break during a code refactor or implementation change.
+* the `__init__.py` files found under the `src/` and `tests/` directories are two different use-cases for init files:
+    * the `src/tasks/__init__.py` file tells Python that the directory is a package, and is the main entry point when `import tasks` is used. It can be empty, or can contain code to import specific functions from `api.py` so that `cli.py` or our tests can access package functionality like `tasks.add()` instead of having to do `tasks.api.add()`.
+    * The `tests/func/__init__.py` and `tests/unit/__init__.py` files are empty; but they allow us to have duplicate test file names under each directory (avoids filename collisions).
+* The `pytest.ini` file is optional. Generally, these files contain project-wide configuration. There should only be one of these files in each project (if any). It can contain directives that would change the behavior of `pytest`, such as setting up a list of options that will always be used. 
+* The `conftest.py` file is also optional; It is considered a 'local plugin' by pytest, and can contain *`hook functions`* and *`fixtures`*. Both hook functions and fixtures that are used by tests in multiple subdirectories should be contained in `conftest.py`. Unlike `pytest.ini` files, you can have multiple `conftest.py` files; for example you can have one @ `tests/conftest.py` and one for each subdirectory under `tests` (`tests/func/conftest.py` and `tests/unit/conftest.py` in this case)
+* *`Hook functions`* are a way to insert code into part of the pytest execution process to alter how pytest works. 
+* *`Fixtures`* are setup and teardown functions that run before and after test functions, and can be used to represent resources and data used by the tests.
+* More information on *`Hook Functions`*, *`Fixtures`*, and both types of configuration files (`pytest.ini` and `conftest.py`) can be found @ [tests/README](./tests/README.md)
 
 
