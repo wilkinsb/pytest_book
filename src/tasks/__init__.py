@@ -1,6 +1,6 @@
 """Minimal Project Task Management."""
 
-from .api import (  # noqa: F401
+from .api import (
     Task,
     TasksException,
     add,
