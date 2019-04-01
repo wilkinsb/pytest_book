@@ -46,5 +46,5 @@ assert Foo().b == 2 # Class
 # Returning custom Assertion Error message
 assert A.a == b, "A.a appears not to be b"
 
-# MORE EXAMPLES @ http://doc/pytest.org/en/latest/example/reportingdemo.html
+# MORE EXAMPLES @ https://docs.pytest.org/en/latest/example/reportingdemo.html
 ```
