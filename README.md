@@ -7,7 +7,8 @@ Testing practice and methods presented in the book, "Python Testing with Pytest"
 
 When running tests using Pytest, the output will be a block of information followed by the tests and the test results.
 
-```
+```bash
+bwilkins$ python -m pytest [options]
 === test session starts ===
 
 platform darwin -- Python 3.7.2, pytest-4.3.1, py-1.8.0, pluggy-0.9.0
