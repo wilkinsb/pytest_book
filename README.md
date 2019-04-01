@@ -19,6 +19,11 @@ collected 0 items
 ```
 * **calling via python (`python -m pytest`) will also add the *current directory* to `sys.path`, allowing for project imports to work correctly when imported into pytest files**
 
+* An example on how to run a **specific test** from *project rootdir* via `python`
+```bash
+python -m pytest -v tests/unit/test_task_fail.py::test_task_equality
+```
+
 * **Platform info:** The first line under the session delimiter shows platform information about the machine the tests are running on; This information differs depending on the operating system (ie. Windows vs OS X).
 It also lists packages that Pytest itself is dependent on, and their versions( Py and Pluggy), as well as the version of Python.
 * **Rootdir:** This line shows the *topmost common directory* to all directories being searched for tests. The **inifile**, though blank here, lists the file being used for configuration. Config files can be `pytest.ini`, `tox.ini`, or `setup.cfg`.
