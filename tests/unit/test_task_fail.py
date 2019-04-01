@@ -12,5 +12,5 @@ def test_task_equality():
 def test_dict_equality():
     """Different Tasks compared as dicts should not be equal"""
     t1_dict = Task('play ball', 'brandon')._asdict()
-    t2_dict = Task('make lunch', 'wilkins')._asdict()
+    t2_dict = Task('play_ball', 'brandno')._asdict()
     assert t1_dict == t2_dict
