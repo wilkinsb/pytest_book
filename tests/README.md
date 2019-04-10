@@ -48,3 +48,21 @@ assert A.a == b, "A.a appears not to be b"
 
 # MORE EXAMPLES @ https://docs.pytest.org/en/latest/example/reportingdemo.html
 ```
+---
+## Marking Test Functions
+
+Pytest lets you add `markers` to your tests; these `markers` can allow extra functionality for specific tests.
+* Tests can have **more than one marker**, and a marker can be on **multiple tests**
+
+You can subset tests by adding an identical marker to a set of tests (ie `@pytest.mark.smoke` added to multiple tests), and run this subset using the `-m` flag:
+```bash
+(pytest_book) bwilkins$ python -m pytest -v -m smoke tests/func/test_api_exceptions.py
+
+=================== test session starts ===================
+...
+
+tests/func/test_api_exceptions.py::test_list_raises PASSED    [ 50%]
+tests/func/test_api_exceptions.py::test_get_raises PASSED     [100%]
+
+======== 2 passed, 2 deselected in 0.01 seconds ========
+```
