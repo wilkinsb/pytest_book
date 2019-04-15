@@ -57,8 +57,8 @@ jobs:
             python -m pytest -v . --log-file=./test_log.txt
 
       - store_test_results:
-          path: test-results
-          
+          path: tests
+
   deploy_staging:
     docker:
       - image: circleci/python:3.7
