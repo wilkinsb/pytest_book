@@ -1,5 +1,6 @@
 """Use the 'Task' datatype to show test failures"""
 import pytest
+
 from src.tasks import Task
 
 

@@ -112,13 +112,13 @@ def start_tasks_db(db_path, db_type):  # type: (str, str) -> None
         raise TypeError("db_path must be a string")
     global _tasksdb # pylint: disable=invalid-name,global-statement
     if db_type == "tiny":
-        import tasks.tasksdb_tinydb
+        import src.tasks.tasksdb_tinydb
 
-        _tasksdb = tasks.tasksdb_tinydb.start_tasks_db(db_path)
+        _tasksdb = src.tasks.tasksdb_tinydb.start_tasks_db(db_path)
     elif db_type == "mongo":
-        import tasks.tasksdb_pymongo
+        import src.tasks.tasksdb_pymongo
 
-        _tasksdb = tasks.tasksdb_pymongo.start_tasks_db(db_path)
+        _tasksdb = src.tasks.tasksdb_pymongo.start_tasks_db(db_path)
     else:
         raise ValueError("db_type must be a 'tiny' or 'mongo'")
 
