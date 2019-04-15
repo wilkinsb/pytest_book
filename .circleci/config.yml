@@ -54,12 +54,12 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            python -m pytest -v . --junitxml=/tests/pytest-report.xml
+            python -m pytest -v . --junitxml=./test-results/pytest-report.xml
 
       - store_test_results:
-          path: tests
+          path: test-results
       - store_artifacts:
-          path: tests
+          path: test-results
 
   deploy_staging:
     docker:
