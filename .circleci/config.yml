@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: circleci/python:2.7.15
+      - image: circleci/python:3.7
 
     working_directory: ~/pytest_book
 
