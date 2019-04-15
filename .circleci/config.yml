@@ -1,0 +1,137 @@
+version: 2.0
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:2.7.15
+
+    working_directory: ~/pytest_book
+
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: Build/Install dependencies
+          command: |
+            pip install virtualenv
+            python -m virtualenv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - persist_to_workspace:
+          root: ~/pytest_book
+          paths:
+            - .
+
+  test:
+    docker:
+    - image: circleci/python:3.7
+
+    working_directory: /tmp/src/pytest_book
+
+    steps:
+      - attach_workspace:
+          at: /tmp/src/pytest_book
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            python -m pytest -v . --log-file=./test_log.txt
+
+      - store_test_results:
+          path: ./test_log.txt
+
+  deploy_staging:
+    docker:
+      - image: circleci/python:3.7
+
+    working_directory: /tmp/src/pytest_book
+
+    steps:
+      - attach_workspace:
+          at: /tmp/src/pytest_book
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: Update lambda functions with zappa
+          command: |
+            . venv/bin/activate
+            git archive -o generic_repo.zip HEAD
+
+            GITHASH=$(git rev-parse HEAD)
+
+            aws s3 cp generic_repo.zip s3://ami-staging-dist/pytest_book/ --metadata \
+            '{"githash": "'"$GITHASH"'"}'
+
+  deploy_production:
+    docker:
+      - image: circleci/python:3.7
+
+    working_directory: /tmp/src/pytest_book
+
+    steps:
+      - attach_workspace:
+          at: /tmp/src/pytest_book
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: Zip and Upload to S3 bucket w/ metadata
+          command: |
+            . venv/bin/activate
+            git archive -o generic_repo.zip HEAD
+
+            GITHASH=$(git rev-parse HEAD)
+
+            aws s3 cp generic_repo.zip s3://ami-production-dist/pytest_book/ --metadata \
+            '{"githash": "'"$GITHASH"'"}'
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy_staging:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: staging
+      - deploy_production:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: master
