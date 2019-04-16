@@ -66,3 +66,49 @@ tests/func/test_api_exceptions.py::test_get_raises PASSED     [100%]
 
 ======== 2 passed, 2 deselected in 0.01 seconds ========
 ```
+
+* By marking a test with `autouse` ie. `@pytest.fixture(autouse=True)`, the function or test will be used in all other tests within that file.
+* the code before `yield` runs before each test, while the code after `yield` runs after the test. Essentially, this is used as a `setup` and `teardown` method within the same function (though `pytest` also supports regular `setup` and `teardown` methods as well)
+```python
+@pytest.fixture(autouse=True)
+def initialized_tasks_db(tmpdir): # tmpdir is a BUILT-IN fixture (chapter 4)
+    """Connect to db before testing, disconnect after."""
+    # Setup: start db
+    tasks.start_tasks_db(str(tmpdir), 'tiny')
+
+    yield  # This is where the testing happens
+
+    # Teardown: stop db
+    tasks.stop_tasks_db()
+```
+* `yield` can also return data to the test if needed.
+---
+## Marking tests to skip or expecting to fail
+
+* `@pytest.mark.skip(reason="some reason for skipping")`
+* `@pytest.mark.skipif(any valid Python expression, reason="some reason")`
+* We skip tests that are not performing as expected, or any reason we want
+* The reason for skipping the test is specified using keyword arg `reason`
+* you can see the reasons for skipping tests printed out on the cli using `-rs` option; `-r` has other pairs as well:
+    * `-rs` to see reasons for **skipped** tests
+    * `-rf` to see summary info on failed tests
+    * `-rE` for error
+    * `-rx` for expected failing tests
+    * `-rX` for expected passing tests summaries
+    * `-rp` for passing tests
+    * `-rP` for passing tests with output
+    * `-ra` for ALL except pP (passed with output)
+<br/><br/>
+* Tests marked with `skip` or `skipif` are not even attempted
+* You can mark with `xfail` if you want it to run, but expect it to fail
+* `@pytest.mark.xfail(expresssion, reason="reason to expect failure")`
+* `x` in pytest cli output is for XFAIL, which means "expected to fail"
+* `X` in pytest cli output is for XPASS, which means "expected to fail, but passed"
+* `s` shows skipped tests
+```bash
+tests/func/test_add.py ..
+tests/func/test_api_exceptions.py ....
+tests/func/test_unique_id_1.py x.sxX
+tests/unit/test_task.py ....
+tests/unit/test_task_fail.py ss
+```

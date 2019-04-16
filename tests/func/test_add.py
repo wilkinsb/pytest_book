@@ -15,7 +15,7 @@ def test_add_returns_valid_id():
 
 
 @pytest.mark.smoke
-def test_assed_task_has_id_set():
+def test_added_task_has_id_set():
     """Make sure that the task_id field is set by tasks.add()"""
     # GIVEN an initialized tasks db
     #     AND a new task is added
