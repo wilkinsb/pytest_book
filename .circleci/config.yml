@@ -79,7 +79,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: Update lambda functions with zappa
+          name: Zip and Upload to S3 bucket w/ metadata
           command: |
             . venv/bin/activate
             git archive -o pytest_repo.zip HEAD
