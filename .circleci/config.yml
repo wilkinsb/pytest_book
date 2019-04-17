@@ -82,11 +82,11 @@ jobs:
           name: Update lambda functions with zappa
           command: |
             . venv/bin/activate
-            git archive -o generic_repo.zip HEAD
+            git archive -o pytest_repo.zip HEAD
 
             GITHASH=$(git rev-parse HEAD)
 
-            aws s3 cp generic_repo.zip s3://ami-staging-dist/pytest_book/ --metadata \
+            aws s3 cp pytest_repo.zip s3://ami-staging-dist/pytest_book/ --metadata \
             '{"githash": "'"$GITHASH"'"}'
 
   deploy_production:
@@ -109,11 +109,11 @@ jobs:
           name: Zip and Upload to S3 bucket w/ metadata
           command: |
             . venv/bin/activate
-            git archive -o generic_repo.zip HEAD
+            git archive -o pytest_repo.zip HEAD
 
             GITHASH=$(git rev-parse HEAD)
 
-            aws s3 cp generic_repo.zip s3://ami-production-dist/pytest_book/ --metadata \
+            aws s3 cp pytest_repo.zip s3://ami-production-dist/pytest_book/ --metadata \
             '{"githash": "'"$GITHASH"'"}'
 
 workflows:
