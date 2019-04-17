@@ -29,6 +29,10 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
+      - persist_to_workspace:
+          root: ~/pytest_book
+          paths:
+            - .
 
   test:
     docker:
@@ -37,6 +41,9 @@ jobs:
     working_directory: /tmp/src/pytest_book
 
     steps:
+      - attach_workspace:
+          at: /tmp/src/pytest_book
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
@@ -62,6 +69,9 @@ jobs:
     working_directory: /tmp/src/pytest_book
 
     steps:
+      - attach_workspace:
+          at: /tmp/src/pytest_book
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
@@ -86,6 +96,9 @@ jobs:
     working_directory: /tmp/src/pytest_book
 
     steps:
+      - attach_workspace:
+          at: /tmp/src/pytest_book
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
