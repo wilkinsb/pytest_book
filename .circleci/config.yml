@@ -60,9 +60,9 @@ jobs:
       - run:
           name: Code Coverage report
           command: |
-          coverage run -m pytest -v
-          coverage report
-          coverage html --omit="~/envs/*"
+            coverage run -m pytest -v
+            coverage report
+            coverage html --omit="~/envs/*"
 
       - store_test_results:
           path: test-results
