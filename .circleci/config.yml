@@ -63,7 +63,7 @@ jobs:
             . venv/bin/activate
             coverage run -m pytest -v
             coverage report
-            coverage html --omit="venv/*"
+            coverage html --omit="/home/circleci/pytest_book/venv/*"
 
       - store_test_results:
           path: test-results
