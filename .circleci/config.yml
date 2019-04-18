@@ -61,9 +61,9 @@ jobs:
           name: Code Coverage report
           command: |
             . venv/bin/activate
-            coverage run -m pytest -v
-            coverage report
-            coverage html --omit="/home/circleci/pytest_book/venv/*"
+            coverage run --omit="*/venv/*" -m pytest -v
+            coverage report --omit="*/venv/*"
+            coverage html --omit="*/venv/*"
 
       - store_test_results:
           path: test-results
