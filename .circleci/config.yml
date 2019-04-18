@@ -60,9 +60,10 @@ jobs:
       - run:
           name: Code Coverage report
           command: |
+            . venv/bin/activate
             coverage run -m pytest -v
             coverage report
-            coverage html --omit="~/envs/*"
+            coverage html --omit="venv/*"
 
       - store_test_results:
           path: test-results
